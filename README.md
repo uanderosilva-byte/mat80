@@ -1,38 +1,17 @@
-# MAT80 — Athlete Performance
+# MAT80 3.2 — Correção da versão antiga no iPhone
 
-Aplicativo web estático para treino, dieta e acompanhamento de evolução no jiu-jitsu.
+## Diagnóstico do seu repositório
+A raiz de `uanderosilva-byte/mat80` ainda tinha o `index.html` da versão anterior e um `sw.js` que guardava o aplicativo em cache. Substitua **todos** os arquivos da raiz, inclusive `sw.js`, pelo conteúdo deste pacote. NÃO envie a pasta externa nem apenas o ZIP.
 
-## Publicação gratuita no GitHub Pages
+## Publicação
+1. Antes de atualizar, exporte um backup no aplicativo antigo, se houver registros.
+2. No repositório `uanderosilva-byte/mat80`, faça upload dos sete arquivos da raiz deste ZIP (`index.html`, `sw.js`, `manifest.webmanifest`, três imagens PNG e `.nojekyll`) e do README, substituindo os anteriores. Confirme o commit na branch `main`.
+3. Em **Settings → Pages**, mantenha `Deploy from a branch` → `main` → `/(root)`. Verifique em **Actions** se a publicação terminou sem falhas.
+4. Abra `https://uanderosilva-byte.github.io/mat80/?v=32` no **Safari**, não no GitHub.com. Confirme no topo `v3.2`.
+5. Feche o aplicativo antigo na tela inicial, abra primeiro pelo Safari e, após conferir a nova versão, remova o antigo **ícone** da Tela de Início e adicione novamente o site ao início. Fazer isso pode afetar dados locais de PWA, então mantenha o backup.
 
-1. Entre em https://github.com/new e crie um repositório, por exemplo `mat80`. Se for usar GitHub Pages no plano gratuito, escolha **Public**.
-2. Abra o repositório e selecione **Add file → Upload files**. Envie **os arquivos que estão dentro desta pasta**, diretamente para a raiz do repositório: `index.html`, `manifest.webmanifest`, `sw.js` e os três arquivos `.png`. Não envie apenas o ZIP.
-3. Clique em **Commit changes**.
-4. Acesse **Settings → Pages**. Em **Build and deployment → Source**, escolha **Deploy from a branch**; selecione a branch `main` e a pasta `/(root)` e salve.
-5. Quando a página estiver publicada, acesse o endereço exibido pelo GitHub Pages. Normalmente é `https://SEU_USUARIO.github.io/mat80/`, mas confirme a URL no painel Pages.
+## Por que há um sw.js?
+A versão antiga tinha um service worker instalado. Este novo `sw.js` é um **desativador temporário**: assume o lugar do anterior, apaga o cache `mat80-*` e cancela seu próprio registro. Não armazena HTML offline. Quando a atualização estiver estável, é possível removê-lo do GitHub.
 
-## Instalação no iPhone
-
-1. Abra o endereço HTTPS do aplicativo no **Safari**.
-2. Use **Compartilhar → Adicionar à Tela de Início** (a opção pode aparecer no menu de ações).
-3. Confirme **Adicionar**. O app passa a abrir em janela própria, semelhante a um aplicativo.
-
-Este é um **web app instalável (PWA)**, não um aplicativo nativo distribuído pela App Store. Também pode ser acessado diretamente pelo Safari sem instalar.
-
-## Funcionamento e dados
-
-- Interface básica disponível offline após o primeiro acesso via HTTPS, desde que o Safari já tenha instalado/cacheado os arquivos.
-- Fontes externas e vídeos do YouTube **exigem internet** e a reprodução incorporada pode ser bloqueada pelo YouTube.
-- Dados de treino, dieta e peso ficam no **armazenamento local do navegador/dispositivo**, não no GitHub. O aplicativo não tem conta nem sincronização entre celular e computador.
-- **Importante:** registros abertos no HTML local ou em um endereço anterior não são migrados automaticamente para o GitHub Pages. Exporte o backup JSON do app anterior e importe no publicado.
-- Faça backups pelo menu **Ajustes**; limpeza de dados do Safari, navegação privada ou troca de dispositivo pode apagar os registros.
-- Repositório público torna **o código e as metas iniciais embutidas no HTML públicos**, mas não publica os registros pessoais digitados no dispositivo.
-- Para atualizar: substitua `index.html` no repositório; para mudar o cache offline, atualize o nome `CACHE` em `sw.js`.
-
-## Arquivos
-
-- `index.html`: aplicativo completo.
-- `manifest.webmanifest`: informações para instalação.
-- `sw.js`: cache básico da interface.
-- `icon-192.png`, `icon-512.png`, `apple-touch-icon.png`: identidade tipográfica do ícone de instalação (sem elementos decorativos).
-
-Não requer servidor próprio, banco de dados nem instalação de pacotes.
+## Dados
+A versão 3.2 não apaga registros de treino, dieta ou peso do localStorage. Limpar os dados do Safari ou remover o PWA pode apagar informações locais, por isso faça backup antes. Os vídeos precisam de internet.

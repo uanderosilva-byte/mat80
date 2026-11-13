@@ -1,6 +1,4 @@
-// MAT80: cache apenas da interface. Vídeos e fontes continuam exigindo internet.
-const CACHE = 'mat80-shell-v2-2';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
-self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())); });
-self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())); });
-self.addEventListener('fetch', event => { const req = event.request; if(req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return; event.respondWith(fetch(req).then(response => { if(response.ok) { const clone=response.clone(); caches.open(CACHE).then(cache => cache.put(req,clone)); } return response; }).catch(() => caches.match(req).then(hit => hit || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error())))); });
+// MAT80 v3.2 — desativa o cache da versão antiga para atualização no iPhone.
+self.addEventListener('install',event=>{event.waitUntil(self.skipWaiting());});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('mat80-')).map(k=>caches.delete(k)));await self.registration.unregister();await self.clients.claim();})());});
+// Sem interceptação de fetch: HTML sempre solicitado à rede.
